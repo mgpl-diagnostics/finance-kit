@@ -505,7 +505,7 @@ Key facts for agents:
   },
   "devDependencies": {
     "@mgpl-diagnostics/db-kit": "^1.1.0",
-    "@mgpl-diagnostics/tally-kit": "github:mgpl-diagnostics/tally-kit#6addf6845033e32e992a1a351d9ab5da6f008699",
+    "@mgpl-diagnostics/tally-kit": "^0.1.0",
     "@types/node": "^22.20.5",
     "embedded-postgres": "^18.4.0-beta.17",
     "mongodb-memory-server": "^11.3.0",
