@@ -1,0 +1,56 @@
+{
+  "name": "@mgpl-diagnostics/finance-kit",
+  "version": "1.0.0",
+  "description": "MGPL Diagnostics money layer for the backend: GST engine and GSTR-1 / GSTR-3B data, B2B receivables and statements, credit notes, collection-centre settlements with configurable TDS, day-end cash closing, bank reconciliation, lock dates, year-end close and CSV exports. A library on db-kit's repositories; no server, no GraphQL.",
+  "type": "module",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": "github:mgpl-diagnostics/finance-kit",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "docs",
+    "README.md",
+    "AGENTS.md",
+    "llms.txt",
+    "LICENSE",
+    "llms-full.txt"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx scripts/test.ts",
+    "prepare": "tsup",
+    "llms": "node scripts/llms-full.mjs @mgpl-diagnostics/finance-kit README.md AGENTS.md llms.txt docs package.json src scripts test"
+  },
+  "peerDependencies": {
+    "@mgpl-diagnostics/db-kit": "^1.1.0"
+  },
+  "devDependencies": {
+    "@mgpl-diagnostics/db-kit": "^1.1.0",
+    "@types/node": "^22.20.5",
+    "embedded-postgres": "^18.4.0-beta.17",
+    "mongodb-memory-server": "^11.3.0",
+    "mongoose": "^9.11.2",
+    "pg": "^8.23.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.8",
+    "tsup": "^8.5.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

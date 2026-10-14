@@ -1,0 +1,3 @@
+Invoice No,Invoice date,Invoice value,Place of supply,Rate,Taxable value,IGST,CGST,SGST
+MGPL/RPR01/2025-26/000007,2026-03-08,123200.00,27,12,110000.00,13200.00,0.00,0.00
+TOTAL,,,,,110000.00,13200.00,0.00,0.00

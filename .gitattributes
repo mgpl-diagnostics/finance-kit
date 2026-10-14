@@ -1,0 +1,3 @@
+* text=auto eol=lf
+# golden CSV exports are compared byte for byte (CRLF line ends, as exported)
+test/golden/*.csv -text

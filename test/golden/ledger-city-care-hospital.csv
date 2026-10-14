@@ -1,0 +1,6 @@
+Ledger: City Care Hospital [CITYHOSP],Voucher No,Type,Debit,Credit,Balance,Dr/Cr
+,,Opening balance,,,0.00,
+2026-03-07,SAL/2025-26/000006,sales,511.00,,511.00,Dr
+2026-03-20,CRN/2025-26/000001,credit_note,,56.00,455.00,Dr
+,,TOTAL,511.00,56.00,,
+,,Closing balance,,,455.00,Dr

@@ -1,0 +1,29 @@
+# @mgpl-diagnostics/finance-kit
+
+> Money layer for the MGPL Diagnostics backend (Node.js ≥ 20), on db-kit's repositories (MongoDB or PostgreSQL). Covers GST tax rules as data, CGST/SGST vs IGST by place of supply, GSTR-1 and GSTR-3B data; B2B customers with credit limits, statements, ageing and credit notes; collection-centre / franchise settlements with configurable TDS; day-end cash closing; bank CSV import and reconciliation with card/UPI MDR; lock dates and year-end close; CSV exports. Integer paise, ACID transactions. No server, no GraphQL, no Tally XML.
+
+Key facts for agents:
+- Wire it with `createDb({ ..., posting: financePosting })` (db-kit), then `seedFinanceLedgers(repos, orgId)` and `seedTaxRules(repos, orgId)`.
+- Calls are `fn(repos, input, actorId)`; `orgId` comes from the session, never from client input.
+- Every voucher goes through `src/posting.ts` (db-kit's engine today, tally-kit later).
+- Tax and TDS values are configuration to be verified by the lab's CA (`VERIFY_WITH_CA`, docs/gst-notes.md).
+- Errors: db-kit's `ValidationError` (400), `NotFoundError` (404), `ConflictError` (409); `PeriodLockedError` and `CreditLimitError` are ConflictErrors.
+- Permissions (checked by the backend with auth-kit): `accounts:read` reports and exports, `accounts:post` postings, `accounts:manage` setup, locks and year-end.
+
+## Docs
+
+- [README](README.md): features, usage
+- [docs/api.md](docs/api.md): every call, permissions, configuration
+- [docs/gst-notes.md](docs/gst-notes.md): items to verify with the CA, tax computation, credit notes, TDS, lock dates
+- [AGENTS.md](AGENTS.md): map and rules
+
+## Source
+
+- [src/posting.ts](src/posting.ts): the only module that posts vouchers
+- [src/config.ts](src/config.ts): defaults and the verify-with-CA list
+- [src/gst/gstr1.ts](src/gst/gstr1.ts), [src/gst/gstr3b.ts](src/gst/gstr3b.ts): returns data
+- [src/receivables/](src/receivables/): customers, statements, credit notes
+- [src/partners/settlements.ts](src/partners/settlements.ts): settlements and TDS
+- [src/cash/](src/cash/): cash closing, bank reconciliation
+- [src/periods/](src/periods/): lock dates, year-end close
+- [src/export/](src/export/): CSV exports
