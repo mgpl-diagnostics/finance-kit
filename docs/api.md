@@ -99,7 +99,7 @@ credit notes cancel out entirely are left out.
 
 | Call | Notes |
 | --- | --- |
-| `setLockDate(repos, { orgId, branchId?, upTo, reason? }, actorId?)` | lock the organisation or one branch up to the end of IST day `upTo` (null removes it). No voucher may be posted or cancelled on or before it; db-kit checks inside the posting transaction, and the lock row is held so a concurrent change cannot slip past |
+| `setLockDate(repos, { orgId, branchId?, upTo, reason? }, actorId?)` | lock the organisation or one branch up to the end of IST day `upTo` (null removes it). No voucher may be posted or cancelled on or before it; tally-kit checks inside the posting transaction, and the lock row is held so a concurrent change cannot slip past |
 | `lockDateFor(repos, orgId, branchId?)` · `listLocks(repos, orgId)` | |
 | `closeFinancialYear(repos, { orgId, fy, now? }, actorId?)` | one Closing voucher per branch on 31 March moves the year's income and expenses to Profit & Loss A/c (Reserves & Surplus); balance-sheet ledgers carry forward; the organisation is locked up to 31 March. Once per year, only after it ends |
 
