@@ -1,16 +1,17 @@
 /**
  * THE ONLY MODULE THAT TALKS TO THE ACCOUNTING ENGINE.
  *
- * Today the engine is db-kit's accounting (postVoucher, cancelVoucher, chart of accounts, books
- * reports). When our own accounting kit (tally-kit, working name) takes over, this file switches to
- * it and nothing else in finance-kit changes. `scripts/test.ts` fails if another file imports the
- * engine functions. No Tally software integration of any kind.
+ * The engine is tally-kit, our own accounting kit (postVoucher, cancelVoucher, chart of accounts,
+ * books reports). Storage, types and errors come from db-kit. `scripts/test.ts` fails if another
+ * file imports the engine functions from db-kit or tally-kit. No Tally software integration of any kind.
  */
 import {
-  balanceSheet, cancelVoucher, dayBook, ledgerBalance, ledgerStatement, NotFoundError, postVoucher, profitAndLoss, seedChartOfAccounts,
-  trialBalance, ValidationError, type Id, type Invoice, type Ledger, type Payment, type PaymentMode, type PostingHook, type Repositories,
+  NotFoundError, ValidationError, type Id, type Invoice, type Ledger, type Payment, type PaymentMode, type PostingHook, type Repositories,
   type Voucher, type VoucherEntry, type VoucherType,
 } from "@mgpl-diagnostics/db-kit";
+import {
+  balanceSheet, cancelVoucher, dayBook, ledgerBalance, ledgerStatement, postVoucher, profitAndLoss, seedChartOfAccounts, trialBalance,
+} from "@mgpl-diagnostics/tally-kit";
 import { invoiceTaxLines } from "./gst/breakup";
 import { supplyResolver } from "./gst/supply";
 
@@ -19,7 +20,7 @@ export type { Voucher, VoucherEntry, VoucherType };
 
 // ------------------------------------------------------------------ ledgers
 
-/** Ledgers finance-kit adds to db-kit's chart (by system key). */
+/** Ledgers finance-kit adds to tally-kit's chart (by system key). */
 export const FINANCE_LEDGERS: { name: string; group: string; key: string }[] = [
   { name: "Collection Centre Share", group: "Direct Expenses", key: "partner_share" },
   { name: "Recoveries from Partners", group: "Indirect Incomes", key: "partner_recoveries" },
@@ -29,7 +30,7 @@ export const FINANCE_LEDGERS: { name: string; group: string; key: string }[] = [
   { name: "Profit & Loss A/c", group: "Reserves & Surplus", key: "retained_earnings" },
 ];
 
-/** db-kit's chart of accounts plus FINANCE_LEDGERS. Idempotent. */
+/** tally-kit's chart of accounts plus FINANCE_LEDGERS. Idempotent. */
 export async function seedFinanceLedgers(repos: Repositories, orgId: Id): Promise<Ledger[]> {
   const { groups } = await seedChartOfAccounts(repos, orgId);
   const byName = new Map(groups.map((g) => [g.name, g]));
@@ -49,7 +50,7 @@ export async function createPartyLedger(tx: Repositories, orgId: Id, name: strin
   return tx.ledgers.create({ orgId, name, groupId: g.id, openingPaise: 0, systemKey: null, active: true });
 }
 
-/** Ledger id by db-kit / finance system key. */
+/** Ledger id by tally-kit / finance system key. */
 export async function ledgerId(repos: Repositories, orgId: Id, key: string): Promise<Id> {
   const l = await repos.ledgers.findBySystemKey(orgId, key);
   if (!l) throw new NotFoundError("Ledger with systemKey", `${key} (run seedFinanceLedgers)`);
@@ -62,7 +63,7 @@ export async function ledgerIds<K extends string>(repos: Repositories, orgId: Id
   return out;
 }
 
-/** The ledger a payment mode lands in (same mapping as db-kit's default posting). */
+/** The ledger a payment mode lands in (same mapping as tally-kit's tallyPostingHook). */
 export const MODE_LEDGER: Record<PaymentMode, string> = {
   cash: "cash", upi: "upi", wallet: "upi", card: "card", netbanking: "bank", cheque: "bank", insurance: "bank",
 };

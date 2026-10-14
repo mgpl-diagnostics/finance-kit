@@ -5,7 +5,7 @@
 Key facts for agents:
 - Wire it with `createDb({ ..., posting: financePosting })` (db-kit), then `seedFinanceLedgers(repos, orgId)` and `seedTaxRules(repos, orgId)`.
 - Calls are `fn(repos, input, actorId)`; `orgId` comes from the session, never from client input.
-- Every voucher goes through `src/posting.ts` (db-kit's engine today, tally-kit later).
+- Every voucher goes through `src/posting.ts`, which posts with tally-kit (our own accounting engine; peer dependency next to db-kit).
 - Tax and TDS values are configuration to be verified by the lab's CA (`VERIFY_WITH_CA`, docs/gst-notes.md).
 - Errors: db-kit's `ValidationError` (400), `NotFoundError` (404), `ConflictError` (409); `PeriodLockedError` and `CreditLimitError` are ConflictErrors.
 - Permissions (checked by the backend with auth-kit): `accounts:read` reports and exports, `accounts:post` postings, `accounts:manage` setup, locks and year-end.

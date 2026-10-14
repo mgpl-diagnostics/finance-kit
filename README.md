@@ -6,7 +6,7 @@ exports for the CA. It works on db-kit's `Repositories` (MongoDB or PostgreSQL),
 paise, and runs every multi-record write in one ACID transaction. There is no server and no GraphQL:
 the backend exposes these calls through its own API.
 
-![tests](https://img.shields.io/badge/checks-262-14264A) ![deps](https://img.shields.io/badge/runtime%20dependencies-0-E9A23B)
+![tests](https://img.shields.io/badge/checks-263-14264A) ![deps](https://img.shields.io/badge/runtime%20dependencies-0-E9A23B)
 
 > **Tax and TDS values are configuration, not legal advice.** Every GST exemption, SAC/HSN code, rate,
 > threshold and TDS section in this package must be confirmed by the lab's chartered accountant before
@@ -79,10 +79,10 @@ Errors are db-kit's: `ValidationError` (400), `NotFoundError` (404), `ConflictEr
 
 ## Accounting engine
 
-Every voucher finance-kit writes goes through [src/posting.ts](src/posting.ts). Today it calls db-kit's
-`postVoucher` / `cancelVoucher` and reports; when our own accounting kit (tally-kit) replaces them,
-only that file changes. A test fails if any other module imports the engine. No Tally software, XML or
-import/export is involved.
+Every voucher finance-kit writes goes through [src/posting.ts](src/posting.ts), which calls
+[tally-kit](https://github.com/mgpl-diagnostics/tally-kit), our own accounting engine (`postVoucher`,
+`cancelVoucher`, chart of accounts, books reports); storage, types and errors stay db-kit's. A test fails
+if any other module imports the engine. No Tally software, XML or import/export is involved.
 
 ## Development
 
@@ -92,9 +92,9 @@ npm run typecheck && npm test && npm run build
 ```
 
 `npm test` starts MongoDB (replica set) and PostgreSQL in-process and runs the same scenario on both:
-262 checks, golden CSV files in [test/golden](test/golden) (`UPDATE_GOLDEN=1 npm test` rewrites them;
-review the diff). To develop against an unpublished db-kit, use `npm link` or a `file:` dependency
-locally and don't commit it.
+263 checks, golden CSV files in [test/golden](test/golden) (`UPDATE_GOLDEN=1 npm test` rewrites them;
+review the diff). To develop against an unpublished db-kit or tally-kit, use `npm link` or a `file:`
+dependency locally and don't commit it.
 
 ## Licence
 
