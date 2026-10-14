@@ -1,0 +1,18 @@
+Primary group,Group,Ledger,Debit,Credit
+Capital Account,Capital Account,Capital Account,,1.00
+Current Assets,Bank Accounts,Bank Account,124467.42,
+Current Assets,Cash-in-Hand,Cash,2886.00,
+Current Assets,Sundry Debtors,City Care Hospital [CITYHOSP],455.00,
+Current Assets,Sundry Debtors,Patient Receivables,,621.00
+Current Liabilities,Sundry Creditors,Bilaspur Diagnostics Point [BLS-CC] share payable,,394.00
+Current Liabilities,Duties & Taxes,Output CGST,,3.00
+Current Liabilities,Duties & Taxes,Output IGST,,13206.00
+Current Liabilities,Duties & Taxes,Output SGST,,3.00
+Current Liabilities,Duties & Taxes,TDS Payable,,8.00
+Direct Expenses,Direct Expenses,Collection Centre Share,417.00,
+Indirect Expenses,Indirect Expenses,Bank Charges,7.58,
+Indirect Expenses,Indirect Expenses,Cash Short / Excess,9.00,
+Indirect Expenses,Indirect Expenses,Discount Allowed,99.00,
+Indirect Incomes,Indirect Incomes,Recoveries from Partners,,15.00
+Sales Accounts,Sales Accounts,Lab Test Income,,114090.00
+,,TOTAL,128341.00,128341.00

@@ -1,0 +1,80 @@
+Date,Voucher No,Type,Status,Ledger,Debit,Credit,Narration
+2026-02-10,RCT/2025-26/000001,receipt,posted,Cash,399.00,,Payment CASH against MGPL/BLS01/2025-26/000001
+2026-02-10,RCT/2025-26/000001,receipt,posted,Patient Receivables,,399.00,Payment CASH against MGPL/BLS01/2025-26/000001
+2026-02-10,SAL/2025-26/000001,sales,posted,Patient Receivables,399.00,,Invoice MGPL/BLS01/2025-26/000001
+2026-02-10,SAL/2025-26/000001,sales,posted,Lab Test Income,,399.00,Invoice MGPL/BLS01/2025-26/000001
+2026-02-28,JRN/2025-26/000001,journal,posted,Collection Centre Share,99.75,,Settlement BLS-CC 2026-02
+2026-02-28,JRN/2025-26/000001,journal,posted,Bilaspur Diagnostics Point [BLS-CC] share payable,,99.75,Settlement BLS-CC 2026-02
+2026-03-05,RCT/2025-26/000002,receipt,posted,Cash,399.00,,Payment CASH against MGPL/RPR01/2025-26/000001
+2026-03-05,RCT/2025-26/000002,receipt,posted,Patient Receivables,,399.00,Payment CASH against MGPL/RPR01/2025-26/000001
+2026-03-05,RCT/2025-26/000003,receipt,posted,Card Settlements,421.00,,Payment CARD against MGPL/RPR01/2025-26/000002
+2026-03-05,RCT/2025-26/000003,receipt,posted,Patient Receivables,,421.00,Payment CARD against MGPL/RPR01/2025-26/000002
+2026-03-05,RCT/2025-26/000004,receipt,posted,UPI Collections,399.00,,Payment UPI against MGPL/RPR01/2025-26/000003
+2026-03-05,RCT/2025-26/000004,receipt,posted,Patient Receivables,,399.00,Payment UPI against MGPL/RPR01/2025-26/000003
+2026-03-05,SAL/2025-26/000002,sales,posted,Patient Receivables,399.00,,Invoice MGPL/RPR01/2025-26/000001
+2026-03-05,SAL/2025-26/000002,sales,posted,Lab Test Income,,399.00,Invoice MGPL/RPR01/2025-26/000001
+2026-03-05,SAL/2025-26/000003,sales,posted,Patient Receivables,421.00,,Invoice MGPL/RPR01/2025-26/000002
+2026-03-05,SAL/2025-26/000003,sales,posted,Lab Test Income,,419.00,Invoice MGPL/RPR01/2025-26/000002
+2026-03-05,SAL/2025-26/000003,sales,posted,Output CGST,,1.20,Invoice MGPL/RPR01/2025-26/000002
+2026-03-05,SAL/2025-26/000003,sales,posted,Output SGST,,1.20,Invoice MGPL/RPR01/2025-26/000002
+2026-03-05,SAL/2025-26/000003,sales,posted,Round Off,0.40,,Invoice MGPL/RPR01/2025-26/000002
+2026-03-05,SAL/2025-26/000004,sales,posted,Patient Receivables,399.00,,Invoice MGPL/RPR01/2025-26/000003
+2026-03-05,SAL/2025-26/000004,sales,posted,Lab Test Income,,399.00,Invoice MGPL/RPR01/2025-26/000003
+2026-03-05,JRN/2025-26/000005,journal,posted,Cash,1.00,,
+2026-03-05,JRN/2025-26/000005,journal,posted,Capital Account,,1.00,
+2026-03-05,JRN/2025-26/000003,journal,posted,Cash,,10.00,"Cash short at day-end 2026-03-05 (book 39900, counted 38900 paise)"
+2026-03-05,JRN/2025-26/000003,journal,posted,Cash Short / Excess,10.00,,"Cash short at day-end 2026-03-05 (book 39900, counted 38900 paise)"
+2026-03-06,CTR/2025-26/000001,contra,posted,Bank Account,413.42,,"Settlement of 2026-03-05 receipts ref CRD0306: gross 42100, fee 758 paise"
+2026-03-06,CTR/2025-26/000001,contra,posted,Bank Charges,7.58,,"Settlement of 2026-03-05 receipts ref CRD0306: gross 42100, fee 758 paise"
+2026-03-06,CTR/2025-26/000001,contra,posted,Card Settlements,,421.00,"Settlement of 2026-03-05 receipts ref CRD0306: gross 42100, fee 758 paise"
+2026-03-06,CTR/2025-26/000002,contra,posted,Bank Account,399.00,,"Settlement of 2026-03-05 receipts ref UPI0306: gross 39900, fee 0 paise"
+2026-03-06,CTR/2025-26/000002,contra,posted,UPI Collections,,399.00,"Settlement of 2026-03-05 receipts ref UPI0306: gross 39900, fee 0 paise"
+2026-03-06,RCT/2025-26/000005,receipt,posted,Cash,649.00,,Payment CASH against MGPL/RPR01/2025-26/000004
+2026-03-06,RCT/2025-26/000005,receipt,posted,Patient Receivables,,649.00,Payment CASH against MGPL/RPR01/2025-26/000004
+2026-03-06,SAL/2025-26/000005,sales,posted,Patient Receivables,649.00,,Invoice MGPL/RPR01/2025-26/000004
+2026-03-06,SAL/2025-26/000005,sales,posted,Lab Test Income,,649.00,Invoice MGPL/RPR01/2025-26/000004
+2026-03-06,JRN/2025-26/000004,journal,posted,Cash,1.00,,"Cash excess at day-end 2026-03-06 (book 103800, counted 103900 paise)"
+2026-03-06,JRN/2025-26/000004,journal,posted,Cash Short / Excess,,1.00,"Cash excess at day-end 2026-03-06 (book 103800, counted 103900 paise)"
+2026-03-07,RCT/2025-26/000006,receipt,posted,Bank Account,455.00,,Payment NETBANKING against MGPL/RPR01/2025-26/000006
+2026-03-07,RCT/2025-26/000006,receipt,posted,Western Path Labs [MUMLAB],,455.00,Payment NETBANKING against MGPL/RPR01/2025-26/000006
+2026-03-07,SAL/2025-26/000006,sales,posted,City Care Hospital [CITYHOSP],511.00,,Invoice MGPL/RPR01/2025-26/000005
+2026-03-07,SAL/2025-26/000006,sales,posted,Lab Test Income,,499.00,Invoice MGPL/RPR01/2025-26/000005
+2026-03-07,SAL/2025-26/000006,sales,posted,Output CGST,,6.00,Invoice MGPL/RPR01/2025-26/000005
+2026-03-07,SAL/2025-26/000006,sales,posted,Output SGST,,6.00,Invoice MGPL/RPR01/2025-26/000005
+2026-03-07,SAL/2025-26/000007,sales,posted,Western Path Labs [MUMLAB],455.00,,Invoice MGPL/RPR01/2025-26/000006
+2026-03-07,SAL/2025-26/000007,sales,posted,Lab Test Income,,449.00,Invoice MGPL/RPR01/2025-26/000006
+2026-03-07,SAL/2025-26/000007,sales,posted,Output IGST,,6.00,Invoice MGPL/RPR01/2025-26/000006
+2026-03-08,RCT/2025-26/000007,receipt,posted,Bank Account,123200.00,,Payment CHEQUE against MGPL/RPR01/2025-26/000007
+2026-03-08,RCT/2025-26/000007,receipt,posted,Patient Receivables,,123200.00,Payment CHEQUE against MGPL/RPR01/2025-26/000007
+2026-03-08,SAL/2025-26/000008,sales,posted,Patient Receivables,123200.00,,Invoice MGPL/RPR01/2025-26/000007
+2026-03-08,SAL/2025-26/000008,sales,posted,Lab Test Income,,110000.00,Invoice MGPL/RPR01/2025-26/000007
+2026-03-08,SAL/2025-26/000008,sales,posted,Output IGST,,13200.00,Invoice MGPL/RPR01/2025-26/000007
+2026-03-09,SAL/2025-26/000009,sales,cancelled,Patient Receivables,99.00,,Invoice MGPL/RPR01/2025-26/000008
+2026-03-09,SAL/2025-26/000009,sales,cancelled,Lab Test Income,,99.00,Invoice MGPL/RPR01/2025-26/000008
+2026-03-10,RCT/2025-26/000008,receipt,posted,Cash,949.00,,Payment CASH against MGPL/BLS01/2025-26/000002
+2026-03-10,RCT/2025-26/000008,receipt,posted,Patient Receivables,,949.00,Payment CASH against MGPL/BLS01/2025-26/000002
+2026-03-10,SAL/2025-26/000010,sales,posted,Patient Receivables,949.00,,Invoice MGPL/BLS01/2025-26/000002
+2026-03-10,SAL/2025-26/000010,sales,posted,Discount Allowed,99.00,,Invoice MGPL/BLS01/2025-26/000002
+2026-03-10,SAL/2025-26/000010,sales,posted,Lab Test Income,,1048.00,Invoice MGPL/BLS01/2025-26/000002
+2026-03-20,CRN/2025-26/000001,credit_note,posted,Lab Test Income,50.00,,Credit note MGPL/RPR01/CN/2025-26/000001 against MGPL/RPR01/2025-26/000005: rate correction on syringes
+2026-03-20,CRN/2025-26/000001,credit_note,posted,Output CGST,3.00,,Credit note MGPL/RPR01/CN/2025-26/000001 against MGPL/RPR01/2025-26/000005: rate correction on syringes
+2026-03-20,CRN/2025-26/000001,credit_note,posted,Output SGST,3.00,,Credit note MGPL/RPR01/CN/2025-26/000001 against MGPL/RPR01/2025-26/000005: rate correction on syringes
+2026-03-20,CRN/2025-26/000001,credit_note,posted,City Care Hospital [CITYHOSP],,56.00,Credit note MGPL/RPR01/CN/2025-26/000001 against MGPL/RPR01/2025-26/000005: rate correction on syringes
+2026-03-20,RCT/2025-26/000009,receipt,posted,Cash,498.00,,Payment CASH against MGPL/BLS01/2025-26/000003
+2026-03-20,RCT/2025-26/000009,receipt,posted,Patient Receivables,,498.00,Payment CASH against MGPL/BLS01/2025-26/000003
+2026-03-20,SAL/2025-26/000011,sales,posted,Patient Receivables,498.00,,Invoice MGPL/BLS01/2025-26/000003
+2026-03-20,SAL/2025-26/000011,sales,posted,Lab Test Income,,498.00,Invoice MGPL/BLS01/2025-26/000003
+2026-03-21,CRN/2025-26/000002,credit_note,posted,Lab Test Income,419.00,,Credit note MGPL/RPR01/CN/2025-26/000002 against MGPL/RPR01/2025-26/000002: sample not collected
+2026-03-21,CRN/2025-26/000002,credit_note,posted,Output CGST,1.20,,Credit note MGPL/RPR01/CN/2025-26/000002 against MGPL/RPR01/2025-26/000002: sample not collected
+2026-03-21,CRN/2025-26/000002,credit_note,posted,Output SGST,1.20,,Credit note MGPL/RPR01/CN/2025-26/000002 against MGPL/RPR01/2025-26/000002: sample not collected
+2026-03-21,CRN/2025-26/000002,credit_note,posted,Round Off,,0.40,Credit note MGPL/RPR01/CN/2025-26/000002 against MGPL/RPR01/2025-26/000002: sample not collected
+2026-03-21,CRN/2025-26/000002,credit_note,posted,Patient Receivables,,421.00,Credit note MGPL/RPR01/CN/2025-26/000002 against MGPL/RPR01/2025-26/000002: sample not collected
+2026-03-25,CRN/2025-26/000003,credit_note,posted,Lab Test Income,200.00,,Credit note MGPL/BLS01/CN/2025-26/000001 against MGPL/BLS01/2025-26/000002: LFT price correction
+2026-03-25,CRN/2025-26/000003,credit_note,posted,Patient Receivables,,200.00,Credit note MGPL/BLS01/CN/2025-26/000001 against MGPL/BLS01/2025-26/000002: LFT price correction
+2026-03-31,JRN/2025-26/000002,journal,posted,Collection Centre Share,317.25,,Settlement BLS-CC 2026-03
+2026-03-31,JRN/2025-26/000002,journal,posted,Bilaspur Diagnostics Point [BLS-CC] share payable,,317.25,Settlement BLS-CC 2026-03
+2026-03-31,JRN/2025-26/000002,journal,posted,Bilaspur Diagnostics Point [BLS-CC] share payable,8.00,,Settlement BLS-CC 2026-03
+2026-03-31,JRN/2025-26/000002,journal,posted,TDS Payable,,8.00,Settlement BLS-CC 2026-03
+2026-03-31,JRN/2025-26/000002,journal,posted,Bilaspur Diagnostics Point [BLS-CC] share payable,15.00,,Settlement BLS-CC 2026-03
+2026-03-31,JRN/2025-26/000002,journal,posted,Recoveries from Partners,,15.00,Settlement BLS-CC 2026-03
+,,,,TOTAL (posted),257297.80,257297.80,

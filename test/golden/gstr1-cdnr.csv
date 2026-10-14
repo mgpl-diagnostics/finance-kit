@@ -1,0 +1,3 @@
+GSTIN of recipient,Note No,Note date,Note type,Invoice No,Invoice date,Note value,Place of supply,Rate,Taxable value,IGST,CGST,SGST
+22AABCC1234D1Z5,MGPL/RPR01/CN/2025-26/000001,2026-03-20,C,MGPL/RPR01/2025-26/000005,2026-03-07,56.00,22,12,50.00,0.00,3.00,3.00
+,TOTAL,,,,,,,,50.00,0.00,3.00,3.00

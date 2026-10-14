@@ -1,0 +1,14 @@
+Side,Group,Ledger,Amount
+Liabilities,Capital Account,Capital Account,1.00
+Liabilities,Current Liabilities,Bilaspur Diagnostics Point [BLS-CC] share payable,394.00
+Liabilities,Current Liabilities,Output CGST,3.00
+Liabilities,Current Liabilities,Output IGST,13206.00
+Liabilities,Current Liabilities,Output SGST,3.00
+Liabilities,Current Liabilities,TDS Payable,8.00
+Assets,Current Assets,Bank Account,124467.42
+Assets,Current Assets,Cash,2886.00
+Assets,Current Assets,City Care Hospital [CITYHOSP],455.00
+Assets,Current Assets,Patient Receivables,-621.00
+Liabilities,,Profit to date,113572.42
+,,TOTAL liabilities,127187.42
+,,TOTAL assets,127187.42
