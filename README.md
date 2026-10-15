@@ -80,7 +80,7 @@ Errors are db-kit's: `ValidationError` (400), `NotFoundError` (404), `ConflictEr
 ## Accounting engine
 
 Every voucher finance-kit writes goes through [src/posting.ts](src/posting.ts), which calls
-[tally-kit](https://github.com/mgpl-diagnostics/tally-kit), our own accounting engine (`postVoucher`,
+[ledger-kit](https://github.com/mgpl-diagnostics/ledger-kit), our own accounting engine (`postVoucher`,
 `cancelVoucher`, chart of accounts, books reports); storage, types and errors stay db-kit's. A test fails
 if any other module imports the engine. No Tally software, XML or import/export is involved.
 
@@ -93,7 +93,7 @@ npm run typecheck && npm test && npm run build
 
 `npm test` starts MongoDB (replica set) and PostgreSQL in-process and runs the same scenario on both:
 263 checks, golden CSV files in [test/golden](test/golden) (`UPDATE_GOLDEN=1 npm test` rewrites them;
-review the diff). To develop against an unpublished db-kit or tally-kit, use `npm link` or a `file:`
+review the diff). To develop against an unpublished db-kit or ledger-kit, use `npm link` or a `file:`
 dependency locally and don't commit it.
 
 ## Licence

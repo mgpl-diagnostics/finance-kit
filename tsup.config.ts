@@ -7,5 +7,5 @@ export default defineConfig({
   target: "node20",
   platform: "node",
   clean: true,
-  external: [/^node:/, "@mgpl-diagnostics/db-kit", "@mgpl-diagnostics/tally-kit"],
+  external: [/^node:/, "@mgpl-diagnostics/db-kit", "@mgpl-diagnostics/ledger-kit"],
 });

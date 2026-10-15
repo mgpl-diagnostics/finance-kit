@@ -68,18 +68,18 @@ screen that shows returns can show it too.
 India. Partner settlements are for collection centres and franchises (business partners), never for
 referring doctors.
 
-The default chart of accounts (tally-kit's, ported unchanged from db-kit) still contains a **"Doctor Referral Commission"** expense ledger
+The default chart of accounts (ledger-kit's, ported unchanged from db-kit) still contains a **"Doctor Referral Commission"** expense ledger
 and a **"Doctors Payable"** ledger from an early draft. finance-kit does not use them. The owner should
-decide whether to remove them from tally-kit's `DEFAULT_LEDGERS`.
+decide whether to remove them from ledger-kit's `DEFAULT_LEDGERS`.
 
 ## Lock dates and year-end
 
 - A lock date (per organisation, or per branch) blocks posting and cancelling vouchers dated on or
-  before it. tally-kit checks it inside the posting transaction while holding the lock row, so a lock
+  before it. ledger-kit checks it inside the posting transaction while holding the lock row, so a lock
   set while an invoice is in flight cannot be bypassed.
 - Day-end cash closing moves the branch's lock date to the end of the closed day.
 - Year-end close posts one Closing voucher per branch that moves the year's income and expenses to
   "Profit & Loss A/c" under Reserves & Surplus, then locks the organisation up to 31 March. Closing
   vouchers are left out of P&L and GST reports, so the closed year still shows its result.
-- No Tally software, Tally XML or import/export is involved. The accounting engine is tally-kit, our
+- No Tally software, Tally XML or import/export is involved. The accounting engine is ledger-kit, our
   own software, behind `src/posting.ts`.

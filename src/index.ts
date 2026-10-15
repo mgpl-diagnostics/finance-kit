@@ -3,7 +3,7 @@ export * from "./config";
 export * from "./util";
 export {
   FINANCE_LEDGERS, seedFinanceLedgers, financePosting, assertFinancePosting, MODE_LEDGER, salesEntries, receivableLedger,
-  // books reports, from the accounting engine behind src/posting.ts (tally-kit)
+  // books reports, from the accounting engine behind src/posting.ts (ledger-kit)
   balanceSheet, dayBook, ledgerBalance, ledgerStatement, profitAndLoss, trialBalance,
 } from "./posting";
 // GST

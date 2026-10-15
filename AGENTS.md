@@ -8,7 +8,7 @@ It works on db-kit's `Repositories`; storage for its entities lives in db-kit (b
 ## Map
 
 ```
-src/posting.ts         THE ONLY MODULE THAT TALKS TO THE ACCOUNTING ENGINE (tally-kit):
+src/posting.ts         THE ONLY MODULE THAT TALKS TO THE ACCOUNTING ENGINE (ledger-kit):
                        finance ledgers, post/cancel, books reports, financePosting (db-kit PostingHook)
 src/config.ts          DEFAULT_FINANCE_CONFIG, DEFAULT_TAX_RULES, VERIFY_WITH_CA, settings.finance merge
 src/util.ts            divRound, applyBp, IST days, months, financial years
@@ -27,8 +27,8 @@ docs/                  api.md (calls, permissions, config), gst-notes.md (verify
 ## Rules
 
 1. **Every posting goes through `src/posting.ts`.** No other module imports `postVoucher`,
-   `cancelVoucher`, `seedChartOfAccounts` or the books reports from tally-kit or db-kit, and
-   `src/posting.ts` takes them from tally-kit, never from db-kit's old engine (a test enforces both).
+   `cancelVoucher`, `seedChartOfAccounts` or the books reports from ledger-kit or db-kit, and
+   `src/posting.ts` takes them from ledger-kit, never from db-kit's old engine (a test enforces both).
 2. **Money is integer paise.** No floats in amounts. Rounding is explicit (`divRound`, `applyBp`,
    largest remainder) and tested. Vouchers always balance.
 3. **Every multi-record write runs in `repos.transaction()`** and uses the `tx` repositories inside.
@@ -44,7 +44,7 @@ docs/                  api.md (calls, permissions, config), gst-notes.md (verify
 9. No real patient or customer data in tests or fixtures (fictional names only). No secrets, no `.env`.
    No pricing tactics in code or docs.
 10. Exports end with TOTAL rows equal to the report they come from; a golden file covers each one.
-11. Never commit a `file:` or `npm link` dependency on db-kit or tally-kit.
+11. Never commit a `file:` or `npm link` dependency on db-kit or ledger-kit.
 
 ## Commands
 
