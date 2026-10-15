@@ -9,7 +9,7 @@ import {
   ConflictError, createDb, issueInvoice, NotFoundError, PeriodLockedError, recordPayment, seedOrganization,
   ValidationError, type Db, type Id, type ItemInput, type Repositories,
 } from "@mgpl-diagnostics/db-kit";
-import { cancelVoucher, postVoucher } from "@mgpl-diagnostics/tally-kit";
+import { cancelVoucher, postVoucher } from "@mgpl-diagnostics/ledger-kit";
 import {
   accrueSettlement, addAgreement, addDays, addTaxRule, applyBp, applyTaxRules, assertFinancePosting, balanceSheetCsv, bankReconciliation,
   cancelSettlement, closeCashDay, closeFinancialYear, computeTds, createCustomer, createPartner, createSettlement, CreditLimitError,
@@ -437,7 +437,7 @@ function postingBoundary() {
       const p = `${dir}/${f.name}`;
       if (f.isDirectory()) walk(p);
       else if (p !== "src/posting.ts" && p.endsWith(".ts")) {
-        const imports = readFileSync(p, "utf8").match(/import[^;]*from\s+"@mgpl-diagnostics\/(db-kit|tally-kit)"/g) ?? [];
+        const imports = readFileSync(p, "utf8").match(/import[^;]*from\s+"@mgpl-diagnostics\/(db-kit|ledger-kit)"/g) ?? [];
         if (imports.some((i) => engine.test(i))) offenders.push(p);
       }
     }
@@ -445,7 +445,7 @@ function postingBoundary() {
   walk("src");
   ok(offenders.length === 0, `only src/posting.ts imports the accounting engine${offenders.length ? ` (also: ${offenders.join(", ")})` : ""}`);
   const fromDbKit = readFileSync("src/posting.ts", "utf8").match(/import[^;]*from\s+"@mgpl-diagnostics\/db-kit"/g) ?? [];
-  ok(!fromDbKit.some((i) => engine.test(i)) && /from\s+"@mgpl-diagnostics\/tally-kit"/.test(readFileSync("src/posting.ts", "utf8")), "src/posting.ts posts through tally-kit, not db-kit's accounting");
+  ok(!fromDbKit.some((i) => engine.test(i)) && /from\s+"@mgpl-diagnostics\/ledger-kit"/.test(readFileSync("src/posting.ts", "utf8")), "src/posting.ts posts through ledger-kit, not db-kit's accounting");
 }
 
 // ------------------------------------------------------------------ main

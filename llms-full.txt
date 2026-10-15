@@ -122,7 +122,7 @@ Errors are db-kit's: `ValidationError` (400), `NotFoundError` (404), `ConflictEr
 ## Accounting engine
 
 Every voucher finance-kit writes goes through [src/posting.ts](src/posting.ts), which calls
-[tally-kit](https://github.com/mgpl-diagnostics/tally-kit), our own accounting engine (`postVoucher`,
+[ledger-kit](https://github.com/mgpl-diagnostics/ledger-kit), our own accounting engine (`postVoucher`,
 `cancelVoucher`, chart of accounts, books reports); storage, types and errors stay db-kit's. A test fails
 if any other module imports the engine. No Tally software, XML or import/export is involved.
 
@@ -135,7 +135,7 @@ npm run typecheck && npm test && npm run build
 
 `npm test` starts MongoDB (replica set) and PostgreSQL in-process and runs the same scenario on both:
 263 checks, golden CSV files in [test/golden](test/golden) (`UPDATE_GOLDEN=1 npm test` rewrites them;
-review the diff). To develop against an unpublished db-kit or tally-kit, use `npm link` or a `file:`
+review the diff). To develop against an unpublished db-kit or ledger-kit, use `npm link` or a `file:`
 dependency locally and don't commit it.
 
 ## Licence
@@ -157,7 +157,7 @@ It works on db-kit's `Repositories`; storage for its entities lives in db-kit (b
 ## Map
 
 ```
-src/posting.ts         THE ONLY MODULE THAT TALKS TO THE ACCOUNTING ENGINE (tally-kit):
+src/posting.ts         THE ONLY MODULE THAT TALKS TO THE ACCOUNTING ENGINE (ledger-kit):
                        finance ledgers, post/cancel, books reports, financePosting (db-kit PostingHook)
 src/config.ts          DEFAULT_FINANCE_CONFIG, DEFAULT_TAX_RULES, VERIFY_WITH_CA, settings.finance merge
 src/util.ts            divRound, applyBp, IST days, months, financial years
@@ -176,8 +176,8 @@ docs/                  api.md (calls, permissions, config), gst-notes.md (verify
 ## Rules
 
 1. **Every posting goes through `src/posting.ts`.** No other module imports `postVoucher`,
-   `cancelVoucher`, `seedChartOfAccounts` or the books reports from tally-kit or db-kit, and
-   `src/posting.ts` takes them from tally-kit, never from db-kit's old engine (a test enforces both).
+   `cancelVoucher`, `seedChartOfAccounts` or the books reports from ledger-kit or db-kit, and
+   `src/posting.ts` takes them from ledger-kit, never from db-kit's old engine (a test enforces both).
 2. **Money is integer paise.** No floats in amounts. Rounding is explicit (`divRound`, `applyBp`,
    largest remainder) and tested. Vouchers always balance.
 3. **Every multi-record write runs in `repos.transaction()`** and uses the `tx` repositories inside.
@@ -193,7 +193,7 @@ docs/                  api.md (calls, permissions, config), gst-notes.md (verify
 9. No real patient or customer data in tests or fixtures (fictional names only). No secrets, no `.env`.
    No pricing tactics in code or docs.
 10. Exports end with TOTAL rows equal to the report they come from; a golden file covers each one.
-11. Never commit a `file:` or `npm link` dependency on db-kit or tally-kit.
+11. Never commit a `file:` or `npm link` dependency on db-kit or ledger-kit.
 
 ## Commands
 
@@ -315,7 +315,7 @@ credit notes cancel out entirely are left out.
 
 | Call | Notes |
 | --- | --- |
-| `setLockDate(repos, { orgId, branchId?, upTo, reason? }, actorId?)` | lock the organisation or one branch up to the end of IST day `upTo` (null removes it). No voucher may be posted or cancelled on or before it; tally-kit checks inside the posting transaction, and the lock row is held so a concurrent change cannot slip past |
+| `setLockDate(repos, { orgId, branchId?, upTo, reason? }, actorId?)` | lock the organisation or one branch up to the end of IST day `upTo` (null removes it). No voucher may be posted or cancelled on or before it; ledger-kit checks inside the posting transaction, and the lock row is held so a concurrent change cannot slip past |
 | `lockDateFor(repos, orgId, branchId?)` · `listLocks(repos, orgId)` | |
 | `closeFinancialYear(repos, { orgId, fy, now? }, actorId?)` | one Closing voucher per branch on 31 March moves the year's income and expenses to Profit & Loss A/c (Reserves & Surplus); balance-sheet ledgers carry forward; the organisation is locked up to 31 March. Once per year, only after it ends |
 
@@ -406,20 +406,20 @@ screen that shows returns can show it too.
 India. Partner settlements are for collection centres and franchises (business partners), never for
 referring doctors.
 
-The default chart of accounts (tally-kit's, ported unchanged from db-kit) still contains a **"Doctor Referral Commission"** expense ledger
+The default chart of accounts (ledger-kit's, ported unchanged from db-kit) still contains a **"Doctor Referral Commission"** expense ledger
 and a **"Doctors Payable"** ledger from an early draft. finance-kit does not use them. The owner should
-decide whether to remove them from tally-kit's `DEFAULT_LEDGERS`.
+decide whether to remove them from ledger-kit's `DEFAULT_LEDGERS`.
 
 ## Lock dates and year-end
 
 - A lock date (per organisation, or per branch) blocks posting and cancelling vouchers dated on or
-  before it. tally-kit checks it inside the posting transaction while holding the lock row, so a lock
+  before it. ledger-kit checks it inside the posting transaction while holding the lock row, so a lock
   set while an invoice is in flight cannot be bypassed.
 - Day-end cash closing moves the branch's lock date to the end of the closed day.
 - Year-end close posts one Closing voucher per branch that moves the year's income and expenses to
   "Profit & Loss A/c" under Reserves & Surplus, then locks the organisation up to 31 March. Closing
   vouchers are left out of P&L and GST reports, so the closed year still shows its result.
-- No Tally software, Tally XML or import/export is involved. The accounting engine is tally-kit, our
+- No Tally software, Tally XML or import/export is involved. The accounting engine is ledger-kit, our
   own software, behind `src/posting.ts`.
 
 
@@ -434,7 +434,7 @@ decide whether to remove them from tally-kit's `DEFAULT_LEDGERS`.
 Key facts for agents:
 - Wire it with `createDb({ ..., posting: financePosting })` (db-kit), then `seedFinanceLedgers(repos, orgId)` and `seedTaxRules(repos, orgId)`.
 - Calls are `fn(repos, input, actorId)`; `orgId` comes from the session, never from client input.
-- Every voucher goes through `src/posting.ts`, which posts with tally-kit (our own accounting engine; peer dependency next to db-kit).
+- Every voucher goes through `src/posting.ts`, which posts with ledger-kit (our own accounting engine; peer dependency next to db-kit).
 - Tax and TDS values are configuration to be verified by the lab's CA (`VERIFY_WITH_CA`, docs/gst-notes.md).
 - Errors: db-kit's `ValidationError` (400), `NotFoundError` (404), `ConflictError` (409); `PeriodLockedError` and `CreditLimitError` are ConflictErrors.
 - Permissions (checked by the backend with auth-kit): `accounts:read` reports and exports, `accounts:post` postings, `accounts:manage` setup, locks and year-end.
@@ -466,7 +466,7 @@ Key facts for agents:
 {
   "name": "@mgpl-diagnostics/finance-kit",
   "version": "1.0.0",
-  "description": "MGPL Diagnostics money layer for the backend: GST engine and GSTR-1 / GSTR-3B data, B2B receivables and statements, credit notes, collection-centre settlements with configurable TDS, day-end cash closing, bank reconciliation, lock dates, year-end close and CSV exports. A library on db-kit's repositories, posting through tally-kit; no server, no GraphQL.",
+  "description": "MGPL Diagnostics money layer for the backend: GST engine and GSTR-1 / GSTR-3B data, B2B receivables and statements, credit notes, collection-centre settlements with configurable TDS, day-end cash closing, bank reconciliation, lock dates, year-end close and CSV exports. A library on db-kit's repositories, posting through ledger-kit; no server, no GraphQL.",
   "type": "module",
   "license": "SEE LICENSE IN LICENSE",
   "repository": "github:mgpl-diagnostics/finance-kit",
@@ -500,12 +500,12 @@ Key facts for agents:
     "llms": "node scripts/llms-full.mjs @mgpl-diagnostics/finance-kit README.md AGENTS.md llms.txt docs package.json src scripts test"
   },
   "peerDependencies": {
-    "@mgpl-diagnostics/db-kit": "^1.1.0",
-    "@mgpl-diagnostics/tally-kit": "^0.1.0"
+    "@mgpl-diagnostics/db-kit": "^1.1.0 || ^2.0.0",
+    "@mgpl-diagnostics/ledger-kit": "^0.1.0"
   },
   "devDependencies": {
-    "@mgpl-diagnostics/db-kit": "^1.1.0",
-    "@mgpl-diagnostics/tally-kit": "^0.1.0",
+    "@mgpl-diagnostics/db-kit": "^2.0.0",
+    "@mgpl-diagnostics/ledger-kit": "^0.1.0",
     "@types/node": "^22.20.5",
     "embedded-postgres": "^18.4.0-beta.17",
     "mongodb-memory-server": "^11.3.0",
@@ -601,7 +601,7 @@ import {
   ConflictError, createDb, issueInvoice, NotFoundError, PeriodLockedError, recordPayment, seedOrganization,
   ValidationError, type Db, type Id, type ItemInput, type Repositories,
 } from "@mgpl-diagnostics/db-kit";
-import { cancelVoucher, postVoucher } from "@mgpl-diagnostics/tally-kit";
+import { cancelVoucher, postVoucher } from "@mgpl-diagnostics/ledger-kit";
 import {
   accrueSettlement, addAgreement, addDays, addTaxRule, applyBp, applyTaxRules, assertFinancePosting, balanceSheetCsv, bankReconciliation,
   cancelSettlement, closeCashDay, closeFinancialYear, computeTds, createCustomer, createPartner, createSettlement, CreditLimitError,
@@ -1029,7 +1029,7 @@ function postingBoundary() {
       const p = `${dir}/${f.name}`;
       if (f.isDirectory()) walk(p);
       else if (p !== "src/posting.ts" && p.endsWith(".ts")) {
-        const imports = readFileSync(p, "utf8").match(/import[^;]*from\s+"@mgpl-diagnostics\/(db-kit|tally-kit)"/g) ?? [];
+        const imports = readFileSync(p, "utf8").match(/import[^;]*from\s+"@mgpl-diagnostics\/(db-kit|ledger-kit)"/g) ?? [];
         if (imports.some((i) => engine.test(i))) offenders.push(p);
       }
     }
@@ -1037,7 +1037,7 @@ function postingBoundary() {
   walk("src");
   ok(offenders.length === 0, `only src/posting.ts imports the accounting engine${offenders.length ? ` (also: ${offenders.join(", ")})` : ""}`);
   const fromDbKit = readFileSync("src/posting.ts", "utf8").match(/import[^;]*from\s+"@mgpl-diagnostics\/db-kit"/g) ?? [];
-  ok(!fromDbKit.some((i) => engine.test(i)) && /from\s+"@mgpl-diagnostics\/tally-kit"/.test(readFileSync("src/posting.ts", "utf8")), "src/posting.ts posts through tally-kit, not db-kit's accounting");
+  ok(!fromDbKit.some((i) => engine.test(i)) && /from\s+"@mgpl-diagnostics\/ledger-kit"/.test(readFileSync("src/posting.ts", "utf8")), "src/posting.ts posts through ledger-kit, not db-kit's accounting");
 }
 
 // ------------------------------------------------------------------ main
@@ -2375,7 +2375,7 @@ export * from "./config";
 export * from "./util";
 export {
   FINANCE_LEDGERS, seedFinanceLedgers, financePosting, assertFinancePosting, MODE_LEDGER, salesEntries, receivableLedger,
-  // books reports, from the accounting engine behind src/posting.ts (tally-kit)
+  // books reports, from the accounting engine behind src/posting.ts (ledger-kit)
   balanceSheet, dayBook, ledgerBalance, ledgerStatement, profitAndLoss, trialBalance,
 } from "./posting";
 // GST
@@ -2888,9 +2888,9 @@ export async function closeFinancialYear(repos: Repositories, input: { orgId: Id
 /**
  * THE ONLY MODULE THAT TALKS TO THE ACCOUNTING ENGINE.
  *
- * The engine is tally-kit, our own accounting kit (postVoucher, cancelVoucher, chart of accounts,
+ * The engine is ledger-kit, our own accounting kit (postVoucher, cancelVoucher, chart of accounts,
  * books reports). Storage, types and errors come from db-kit. `scripts/test.ts` fails if another
- * file imports the engine functions from db-kit or tally-kit. No Tally software integration of any kind.
+ * file imports the engine functions from db-kit or ledger-kit. No Tally software integration of any kind.
  */
 import {
   NotFoundError, ValidationError, type Id, type Invoice, type Ledger, type Payment, type PaymentMode, type PostingHook, type Repositories,
@@ -2898,7 +2898,7 @@ import {
 } from "@mgpl-diagnostics/db-kit";
 import {
   balanceSheet, cancelVoucher, dayBook, ledgerBalance, ledgerStatement, postVoucher, profitAndLoss, seedChartOfAccounts, trialBalance,
-} from "@mgpl-diagnostics/tally-kit";
+} from "@mgpl-diagnostics/ledger-kit";
 import { invoiceTaxLines } from "./gst/breakup";
 import { supplyResolver } from "./gst/supply";
 
@@ -2907,7 +2907,7 @@ export type { Voucher, VoucherEntry, VoucherType };
 
 // ------------------------------------------------------------------ ledgers
 
-/** Ledgers finance-kit adds to tally-kit's chart (by system key). */
+/** Ledgers finance-kit adds to ledger-kit's chart (by system key). */
 export const FINANCE_LEDGERS: { name: string; group: string; key: string }[] = [
   { name: "Collection Centre Share", group: "Direct Expenses", key: "partner_share" },
   { name: "Recoveries from Partners", group: "Indirect Incomes", key: "partner_recoveries" },
@@ -2917,7 +2917,7 @@ export const FINANCE_LEDGERS: { name: string; group: string; key: string }[] = [
   { name: "Profit & Loss A/c", group: "Reserves & Surplus", key: "retained_earnings" },
 ];
 
-/** tally-kit's chart of accounts plus FINANCE_LEDGERS. Idempotent. */
+/** ledger-kit's chart of accounts plus FINANCE_LEDGERS. Idempotent. */
 export async function seedFinanceLedgers(repos: Repositories, orgId: Id): Promise<Ledger[]> {
   const { groups } = await seedChartOfAccounts(repos, orgId);
   const byName = new Map(groups.map((g) => [g.name, g]));
@@ -2937,7 +2937,7 @@ export async function createPartyLedger(tx: Repositories, orgId: Id, name: strin
   return tx.ledgers.create({ orgId, name, groupId: g.id, openingPaise: 0, systemKey: null, active: true });
 }
 
-/** Ledger id by tally-kit / finance system key. */
+/** Ledger id by ledger-kit / finance system key. */
 export async function ledgerId(repos: Repositories, orgId: Id, key: string): Promise<Id> {
   const l = await repos.ledgers.findBySystemKey(orgId, key);
   if (!l) throw new NotFoundError("Ledger with systemKey", `${key} (run seedFinanceLedgers)`);
@@ -2950,7 +2950,7 @@ export async function ledgerIds<K extends string>(repos: Repositories, orgId: Id
   return out;
 }
 
-/** The ledger a payment mode lands in (same mapping as tally-kit's tallyPostingHook). */
+/** The ledger a payment mode lands in (same mapping as ledger-kit's ledgerPostingHook). */
 export const MODE_LEDGER: Record<PaymentMode, string> = {
   cash: "cash", upi: "upi", wallet: "upi", card: "card", netbanking: "bank", cheque: "bank", insurance: "bank",
 };
