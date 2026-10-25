@@ -513,7 +513,7 @@ Key facts for agents:
     "pg": "^8.23.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.8",
-    "tsup": "^8.5.0",
+    "tsup": "^9.0.0",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3"
   },
