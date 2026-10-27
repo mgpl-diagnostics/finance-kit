@@ -465,7 +465,7 @@ Key facts for agents:
 ```json
 {
   "name": "@mgpl-diagnostics/finance-kit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MGPL Diagnostics money layer for the backend: GST engine and GSTR-1 / GSTR-3B data, B2B receivables and statements, credit notes, collection-centre settlements with configurable TDS, day-end cash closing, bank reconciliation, lock dates, year-end close and CSV exports. A library on db-kit's repositories, posting through ledger-kit; no server, no GraphQL.",
   "type": "module",
   "license": "SEE LICENSE IN LICENSE",
