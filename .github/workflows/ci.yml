@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       # @mgpl-diagnostics/db-kit comes from GitHub Packages
-      - uses: mgpl-diagnostics/.github/actions/node@claude/project-thread-dsh6g4
+      - uses: mgpl-diagnostics/.github/actions/node@main
         with:
           github-packages: "true"
           token: ${{ secrets.GITHUB_TOKEN }}
