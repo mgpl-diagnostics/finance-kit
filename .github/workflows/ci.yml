@@ -11,7 +11,7 @@ permissions:
 
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   # The job id "ci" is the required status check on main (see mgpl-diagnostics/.github scripts/protect-repos.mjs).
@@ -20,15 +20,12 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          registry-url: https://npm.pkg.github.com
-          scope: "@mgpl-diagnostics"
       # @mgpl-diagnostics/db-kit comes from GitHub Packages
-      - run: npm install --no-package-lock
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: mgpl-diagnostics/.github/actions/node@claude/project-thread-dsh6g4
+        with:
+          github-packages: "true"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          mongodb: "true"
       - run: npm run typecheck
       - name: Tests (GST, receivables, settlements, cash, bank, lock dates, year end, golden CSVs) on MongoDB and PostgreSQL
         run: npm test
